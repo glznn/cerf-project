@@ -23,7 +23,6 @@ public class App {
     private static OutputStream fileOut;
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        System.out.println("Hello World!");
         GUI gui = new GUI();
         /*
          * Workbook wb = new XSSFWorkbook();
@@ -40,7 +39,7 @@ public class App {
         wb.write(fileOut);
         wb.close();
 
-        Workbook wbCopy = new XSSFWorkbook("workbook.xlsx");
+        wbCopy = new XSSFWorkbook("workbook.xlsx");
         Sheet eventInfo = wbCopy.getSheetAt(2);
         Row row = eventInfo.getRow(23);
         event = row.getCell(1);
@@ -59,6 +58,14 @@ public class App {
     public static boolean saveWb() throws IOException {
         wbCopy.write(fileOut);
         return true;
+    }
+
+    public static void getEvent() {
+        System.out.println(event.getStringCellValue());
+    }
+
+    public static void closeWb() throws IOException {
+        wbCopy.close();
     }
 
 }

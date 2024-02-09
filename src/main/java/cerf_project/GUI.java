@@ -14,11 +14,15 @@ import javax.swing.JTextField;
 
 public class GUI implements ActionListener {
 
+    private App app;
     private JFrame frame;
     private JPanel panel;
     private JTextField cerfTitle;
 
     public GUI() {
+
+        app = new App();
+
         frame = new JFrame();
         panel = new JPanel();
 
@@ -51,8 +55,10 @@ public class GUI implements ActionListener {
         String text = cerfTitle.getText();
         App.changeEvent(text);
         System.out.println("changed");
+        App.getEvent();
         try {
             App.saveWb();
+            App.closeWb();
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             System.out.println("lol");
