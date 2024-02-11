@@ -39,33 +39,44 @@ public class App {
         wb.write(fileOut);
         wb.close();
 
+        System.out.println("reached");
         wbCopy = new XSSFWorkbook("workbook.xlsx");
-        Sheet eventInfo = wbCopy.getSheetAt(2);
-        Row row = eventInfo.getRow(23);
-        event = row.getCell(1);
-        System.out.println("At this cell " + event.getStringCellValue());
-        event.setCellValue("testing!");
+        //Row row = eventInfo.getRow(23);
+        //event = row.getCell(1);
+        //System.out.println("At this cell " + event.getStringCellValue());
+        //event.setCellValue("testing!");
+
+        // Event Name
+        editCell(2, 23, 1, "editCell test");
 
         wbCopy.write(fileOut);
+        //wbCopy.close();
         System.out.println("does it reach this");
     }
 
-    public static boolean changeEvent(String nameEvent) {
-        event.setCellValue(nameEvent);
-        return true;
-    }
+    // public static boolean changeEvent(String nameEvent) {
+    //     event.setCellValue(nameEvent);
+    //     return true;
+    // }
 
     public static boolean saveWb() throws IOException {
         wbCopy.write(fileOut);
         return true;
     }
 
-    public static void getEvent() {
-        System.out.println(event.getStringCellValue());
-    }
+    // public static void getEvent() {
+    //     System.out.println(event.getStringCellValue());
+    // }
 
     public static void closeWb() throws IOException {
         wbCopy.close();
+    }
+
+    public static void editCell(int sheet, int row, int col, String value) {
+        Sheet tempSheet = wbCopy.getSheetAt(sheet);
+        Row tempRow = tempSheet.getRow(row);
+        Cell tempEvent = tempRow.getCell(col);
+        tempEvent.setCellValue(value);
     }
 
 }
