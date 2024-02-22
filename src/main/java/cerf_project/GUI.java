@@ -323,6 +323,7 @@ public class GUI implements ActionListener {
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("CERF Creation Tool");
+        frame.setSize(500, 500);
         //frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
