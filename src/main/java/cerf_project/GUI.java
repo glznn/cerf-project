@@ -18,10 +18,11 @@ import javax.swing.ToolTipManager;
 
 public class GUI implements ActionListener {
 
+    private GUI2 gui2;
     private App app;
     private Helper helper;
-    private JFrame frame;
-    private JPanel panel;
+    private static JFrame frame;
+    private static JPanel panel;
     private JTextField nameOfEventI;
     private JTextField eventChairI;
     private JTextField userI;
@@ -63,7 +64,7 @@ public class GUI implements ActionListener {
         panel = new JPanel();
 
         // So that the tooltip comes out much faster!
-        ToolTipManager.sharedInstance().setInitialDelay(1);
+        ToolTipManager.sharedInstance().setInitialDelay(100);
 
         panel.setLayout(null);
 
@@ -322,13 +323,20 @@ public class GUI implements ActionListener {
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("CERF Creation Tool");
-        // frame.pack();
+        //frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-    
+
     }
 
+    public static JFrame getFrame() {
+        return frame;
+    }
+
+    public static JPanel getPanel() {
+        return panel;
+    }
     public static void main(String[] args) {
         new GUI();
     }
@@ -351,6 +359,9 @@ public class GUI implements ActionListener {
         //App.editCell(2, 23, 1, pageOneTextFields.get(0).getText());
         System.out.println("changed");
         //App.getEvent();
+        panel.removeAll();
+        panel.repaint();
+        new GUI2();
         try {
             App.saveWb();
             App.closeWb();
