@@ -114,7 +114,7 @@ public class GUI implements ActionListener {
         JLabel time = new JLabel("Time of Event: ");
         time.setBounds(20, 100, 250, 25);
         panel.add(time);
-
+        
         timeI = new JTextField(10);
         timeI.setBounds(180, 100, 165, 25);
         timeI.setToolTipText("Input as HH:MM-HH:MM");

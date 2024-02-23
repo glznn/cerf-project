@@ -70,10 +70,6 @@ public class GUI2 implements ActionListener {
 
     public static void main(String[] args)
     {
-        // For Testing , make frame/panel static
-        //frame = new JFrame();
-        //panel = new JPanel();
-        //
         new GUI2();
     }
 
@@ -83,12 +79,6 @@ public class GUI2 implements ActionListener {
         // NOTE: Last names and first names are separated by tabs. Attendees are separated by newlines.
         Triplet<Integer, Integer, Integer> firstAttCell = ExcelConstants.getFirstAtt();
         String attendees = aList.getText();
-/*         for (int i = 0; i < attendees.length() - 1; i++) {
-            if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE)
-            {
-                System.out.println(attendees.charAt(i));
-            }
-        } */
         String name = "";
         int nameCount = 0;
         for (int i = 0; i < attendees.length(); i++) {
@@ -98,12 +88,10 @@ public class GUI2 implements ActionListener {
             }
             else if (attendees.charAt(i) == TAB) {
                 App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2(), name);
-                System.out.println(name);
                 name = "";
             }
             else if (attendees.charAt(i) == NEW_LINE) {
                 App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2() + 1, name);
-                System.out.println(name);
                 name = "";
                 nameCount++;
             }
