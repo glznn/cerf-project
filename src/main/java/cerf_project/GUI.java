@@ -20,7 +20,7 @@ public class GUI implements ActionListener {
 
     private GUI2 gui2;
     private App app;
-    private Helper helper;
+    private ExcelConstants excelConstants;
     private static JFrame frame;
     private static JPanel panel;
     private JTextField nameOfEventI;
@@ -55,8 +55,8 @@ public class GUI implements ActionListener {
 
     public GUI() {
 
-        app = new App();
-        helper = new Helper();
+        //app = new App();
+        excelConstants = new ExcelConstants();
         pageOneTextFields = new LinkedList<>();
         pageOneCheckBox = new LinkedList<>();
 
@@ -347,14 +347,14 @@ public class GUI implements ActionListener {
         
         // Go through text fields
         for (int i = 0; i < pageOneTextFields.size(); i++) {
-            App.editCell(Helper.getA(i), Helper.getB(i), Helper.getC(i), pageOneTextFields.get(i).getText());
+            App.editCell(ExcelConstants.getA(i), ExcelConstants.getB(i), ExcelConstants.getC(i), pageOneTextFields.get(i).getText());
         }
 
         // Go through check boxes 
         for (int i = 0; i < pageOneCheckBox.size(); i++) {
             if (pageOneCheckBox.get(i).isSelected() == true)
             {
-                App.editCell(Helper.getA(i + ARRAY_BUFFER), Helper.getB(i + ARRAY_BUFFER), Helper.getC(i + ARRAY_BUFFER), "x");
+                App.editCell(ExcelConstants.getA(i + ARRAY_BUFFER), ExcelConstants.getB(i + ARRAY_BUFFER), ExcelConstants.getC(i + ARRAY_BUFFER), "x");
             }
         }
         //App.editCell(2, 23, 1, pageOneTextFields.get(0).getText());
@@ -363,13 +363,13 @@ public class GUI implements ActionListener {
         panel.removeAll();
         panel.repaint();
         new GUI2();
-        try {
+/*          try {
             App.saveWb();
             App.closeWb();
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             System.out.println("lol");
             e1.printStackTrace();
-        }
-    }
+        } */
+    } 
 }

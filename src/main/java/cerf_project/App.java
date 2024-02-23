@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -34,7 +35,7 @@ public class App {
          */
 
         // Creates a copy of the CERF template
-        Workbook wb = new XSSFWorkbook("CERFtemplate.xlsx");
+        Workbook wb = new XSSFWorkbook("CERFTemplate.xlsx");
         fileOut = new FileOutputStream("workbook.xlsx");
         wb.write(fileOut);
         wb.close();
@@ -60,6 +61,8 @@ public class App {
     // }
 
     public static boolean saveWb() throws IOException {
+        // MAKE SURE THE FORMULAS WORK !!!!!!!!!!!!!!!!! ****
+        XSSFFormulaEvaluator.evaluateAllFormulaCells(wbCopy);
         wbCopy.write(fileOut);
         return true;
     }

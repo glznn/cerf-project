@@ -18,23 +18,30 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
-public class GUI2 {
+import org.javatuples.Triplet;
+
+public class GUI2 implements ActionListener {
 
     private static JFrame frame;
     private static JPanel panel;
+    private static JButton next;
+    private static JTextArea aList;
+    private static final char NEW_LINE = '\n';
+    private static final char TAB = '\t';
 
     public GUI2() {
-        //frame = GUI.getFrame();
-        //panel = GUI.getPanel();
+        frame = GUI.getFrame();
+        panel = GUI.getPanel();
         
         //panel.setLayout(new FlowLayout());
+        new ExcelConstants();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         JLabel attendees = new JLabel("Paste the event attendees: ");
         attendees.setBounds(20, 20, 250, 25);
         panel.add(attendees);
 
-        JTextArea aList = new JTextArea(25, 30);
+        aList = new JTextArea(25, 30);
         aList.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         aList.setLineWrap(true);
         aList.setWrapStyleWord(false);
@@ -45,9 +52,9 @@ public class GUI2 {
 
         // Next Button
     
-        JButton next = new JButton("Next");
+        next = new JButton("Next");
         next.setBounds(360,450, 100,25);
-        //next.addActionListener(this);
+        next.addActionListener(this);
         panel.add(next);        
 
 
@@ -56,7 +63,7 @@ public class GUI2 {
         frame.setTitle("CERF Creation Tool");
         frame.setLocationRelativeTo(null);
         frame.setSize(500, 500);
-        //frame.pack();
+        frame.pack();
         frame.setVisible(true);
 
     }
@@ -64,10 +71,51 @@ public class GUI2 {
     public static void main(String[] args)
     {
         // For Testing , make frame/panel static
-        frame = new JFrame();
-        panel = new JPanel();
+        //frame = new JFrame();
+        //panel = new JPanel();
         //
         new GUI2();
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        // NOTE: Last names and first names are separated by tabs. Attendees are separated by newlines.
+        Triplet<Integer, Integer, Integer> firstAttCell = ExcelConstants.getFirstAtt();
+        String attendees = aList.getText();
+/*         for (int i = 0; i < attendees.length() - 1; i++) {
+            if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE)
+            {
+                System.out.println(attendees.charAt(i));
+            }
+        } */
+        String name = "";
+        int nameCount = 0;
+        for (int i = 0; i < attendees.length(); i++) {
+            if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE)
+            {
+                name += attendees.charAt(i); 
+            }
+            else if (attendees.charAt(i) == TAB) {
+                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2(), name);
+                System.out.println(name);
+                name = "";
+            }
+            else if (attendees.charAt(i) == NEW_LINE) {
+                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2() + 1, name);
+                System.out.println(name);
+                name = "";
+                nameCount++;
+            }
+
+        }
+        System.out.println(aList.getText());
+        try {
+            App.saveWb();
+            App.closeWb();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+    }
 }
