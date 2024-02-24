@@ -28,6 +28,7 @@ public class GUI implements ActionListener {
     private JTextField userI;
     private JTextField dateI;
     private JTextField timeI;
+    private JTextField timeII;
     private JTextField locationI;
     private JTextField hostI;
     private JCheckBox commService;
@@ -111,15 +112,22 @@ public class GUI implements ActionListener {
         panel.add(dateI);
 
         // Time of Event 
-        JLabel time = new JLabel("Time of Event: ");
+        JLabel time = new JLabel("Start / End Time: ");
         time.setBounds(20, 100, 250, 25);
         panel.add(time);
         
+            // Start time
         timeI = new JTextField(10);
-        timeI.setBounds(180, 100, 165, 25);
-        timeI.setToolTipText("Input as HH:MM-HH:MM");
+        timeI.setBounds(180, 100, 82, 25);
+        timeI.setToolTipText("Input as HH:MM");
         pageOneTextFields.add(timeI);
         panel.add(timeI);
+
+            // End Time
+        timeII = new JTextField(10);
+        timeII.setBounds(262, 100, 83, 25);
+        timeII.setToolTipText("Input as HH:MM");
+        panel.add(timeII);
 
 
         // Location
@@ -348,6 +356,9 @@ public class GUI implements ActionListener {
         // Go through text fields
         for (int i = 0; i < pageOneTextFields.size(); i++) {
             App.editCell(ExcelConstants.getA(i), ExcelConstants.getB(i), ExcelConstants.getC(i), pageOneTextFields.get(i).getText());
+            if (i == 4) {
+                App.editCell(ExcelConstants.getA(i), ExcelConstants.getB(i), ExcelConstants.getC(i), pageOneTextFields.get(i).getText() + " - " + timeII.getText());
+            }
         }
 
         // Go through check boxes 

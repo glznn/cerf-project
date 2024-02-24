@@ -80,24 +80,28 @@ public class GUI2 implements ActionListener {
         Triplet<Integer, Integer, Integer> firstAttCell = ExcelConstants.getFirstAtt();
         String attendees = aList.getText();
         String name = "";
+        String fullName = "";
         int nameCount = 0;
         for (int i = 0; i < attendees.length(); i++) {
             if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE)
             {
-                name += attendees.charAt(i); 
+                name += attendees.charAt(i);
+                fullName += attendees.charAt(i);  
             }
             else if (attendees.charAt(i) == TAB) {
                 App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2(), name);
                 name = "";
+                fullName += " ";
             }
             else if (attendees.charAt(i) == NEW_LINE) {
                 App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2() + 1, name);
                 name = "";
+                DataHandler.addA(fullName);
+                fullName = "";
                 nameCount++;
             }
 
         }
-        System.out.println(aList.getText());
         try {
             App.saveWb();
             App.closeWb();
