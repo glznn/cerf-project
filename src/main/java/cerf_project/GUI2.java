@@ -9,9 +9,12 @@ import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -29,11 +32,23 @@ public class GUI2 implements ActionListener {
     private static final char NEW_LINE = '\n';
     private static final char TAB = '\t';
 
+    JTextField leadershipHr = new JTextField();
+    JTextField fellowshipHr = new JTextField();
+    JTextField serviceHr = new JTextField();
+    final JComponent[] inputs = new JComponent[] {
+            new JLabel("Leadership Hours: "),
+            leadershipHr,
+            new JLabel("Fellowship Hours: "),
+            fellowshipHr,
+            new JLabel("Service Hours: "),
+            serviceHr
+    };
+
     public GUI2() {
         frame = GUI.getFrame();
         panel = GUI.getPanel();
-        
-        //panel.setLayout(new FlowLayout());
+
+        // panel.setLayout(new FlowLayout());
         new ExcelConstants();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -51,12 +66,11 @@ public class GUI2 implements ActionListener {
         panel.add(scroll);
 
         // Next Button
-    
-        next = new JButton("Next");
-        next.setBounds(360,450, 100,25);
-        next.addActionListener(this);
-        panel.add(next);        
 
+        next = new JButton("Next");
+        next.setBounds(360, 450, 100, 25);
+        next.addActionListener(this);
+        panel.add(next);
 
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,35 +82,51 @@ public class GUI2 implements ActionListener {
 
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new GUI2();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // NOTE: Last names and first names are separated by tabs. Attendees are separated by newlines.
+        // NOTE: Last names and first names are separated by tabs. Attendees are
+        // separated by newlines.
         Triplet<Integer, Integer, Integer> firstAttCell = ExcelConstants.getFirstAtt();
         String attendees = aList.getText();
         String name = "";
         String fullName = "";
         int nameCount = 0;
+
+        if (!(attendees.charAt(attendees.length() - 1) == '\n')) {
+            attendees = attendees + '\n';
+        }
+
         for (int i = 0; i < attendees.length(); i++) {
-            if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE)
-            {
+            if (attendees.charAt(i) != TAB && attendees.charAt(i) != NEW_LINE) {
                 name += attendees.charAt(i);
-                fullName += attendees.charAt(i);  
-            }
-            else if (attendees.charAt(i) == TAB) {
-                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2(), name);
+                fullName += attendees.charAt(i);
+            } else if (attendees.charAt(i) == TAB) {
+                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2(),
+                        name);
                 name = "";
                 fullName += " ";
-            }
-            else if (attendees.charAt(i) == NEW_LINE) {
-                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount, firstAttCell.getValue2() + 1, name);
+            } else if (attendees.charAt(i) == NEW_LINE) {
+                App.editCell(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount,
+                        firstAttCell.getValue2() + 1, name);
                 name = "";
                 DataHandler.addA(fullName);
+                JOptionPane.showConfirmDialog(null, inputs, "Input Hours for " + fullName, JOptionPane.PLAIN_MESSAGE);
+                // Put in hours , make sure type is number for spreadsheet
+
+                App.setDouble(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount,
+                        firstAttCell.getValue2() + 2, serviceHr.getText());
+
+                App.setDouble(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount,
+                        firstAttCell.getValue2() + 4, leadershipHr.getText());
+
+                App.setDouble(firstAttCell.getValue0(), firstAttCell.getValue1() + nameCount,
+                        firstAttCell.getValue2() + 5, fellowshipHr.getText());
+
                 fullName = "";
                 nameCount++;
             }
