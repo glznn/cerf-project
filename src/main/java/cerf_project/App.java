@@ -3,11 +3,9 @@ package cerf_project;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -23,6 +21,7 @@ public class App {
     private static Cell event;
     private static Workbook wbCopy;
     private static OutputStream fileOut;
+    private static boolean finished = false;
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         GUI gui = new GUI();
@@ -35,7 +34,7 @@ public class App {
          * wb.close();
          */
 
-        // Creates a copy of the CERF template
+        // Creates a copy of the CERF template onto workbook.xlsx
         Workbook wb = new XSSFWorkbook("CERFTemplate.xlsx");
         fileOut = new FileOutputStream("workbook.xlsx");
         wb.write(fileOut);
@@ -54,6 +53,7 @@ public class App {
         wbCopy.write(fileOut);
         // wbCopy.close();
         System.out.println("does it reach this");
+
     }
 
     // public static boolean changeEvent(String nameEvent) {
@@ -74,6 +74,7 @@ public class App {
 
     public static void closeWb() throws IOException {
         wbCopy.close();
+        fileOut.close();
     }
 
     public static void editCell(int sheet, int row, int col, String value) {

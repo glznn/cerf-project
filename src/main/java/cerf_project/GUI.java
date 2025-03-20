@@ -1,19 +1,16 @@
 package cerf_project;
 
-import java.util.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
 public class GUI implements ActionListener {
@@ -23,7 +20,7 @@ public class GUI implements ActionListener {
     private ExcelConstants excelConstants;
     private static JFrame frame;
     private static JPanel panel;
-    private JTextField nameOfEventI;
+    private static JTextField nameOfEventI;
     private JTextField eventChairI;
     private JTextField userI;
     private JTextField dateI;
@@ -63,6 +60,8 @@ public class GUI implements ActionListener {
 
         frame = new JFrame();
         panel = new JPanel();
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // So that the tooltip comes out much faster!
         ToolTipManager.sharedInstance().setInitialDelay(100);
@@ -337,6 +336,10 @@ public class GUI implements ActionListener {
         frame.setVisible(true);
 
 
+    }
+
+     public static String getEventName() {
+         return nameOfEventI.getText();
     }
 
     public static JFrame getFrame() {
